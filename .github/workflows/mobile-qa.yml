@@ -19,9 +19,9 @@ jobs:
     name: phone audit (390 / 320 / rotation)
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: npm
@@ -57,7 +57,7 @@ jobs:
 
       - name: Upload harness evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mobile-qa-evidence
           path: |
