@@ -1,0 +1,331 @@
+/* ==========================================================================
+   components.css — buttons, rail, cue, captions, and the reveal system.
+   ========================================================================== */
+
+@layer components {
+  /* --- buttons -------------------------------------------------------- */
+  .btn {
+    --btn-bg: var(--paper);
+    --btn-fg: var(--ink);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1.4rem;
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+    border: var(--hairline) solid transparent;
+    border-radius: var(--r-pill);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+    text-decoration: none;
+    overflow: hidden;
+    isolation: isolate;
+    transform: translate3d(var(--mx, 0px), var(--my, 0px), 0);
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--signal);
+    transform: translateY(101%);
+    transition: transform var(--dur-mid) var(--ease-out);
+  }
+
+  .btn:focus-visible::before {
+    transform: none;
+  }
+
+  .btn:focus-visible {
+    color: var(--paper);
+  }
+
+  @media (hover: hover) {
+    .btn:hover::before {
+      transform: none;
+    }
+
+    .btn:hover {
+      color: var(--paper);
+    }
+  }
+
+  .btn--sm {
+    padding: 0.6rem 1.05rem;
+  }
+
+  .btn--lg {
+    padding: 1.05rem 1.9rem;
+    font-size: var(--step-0);
+  }
+
+  .btn--ghost {
+    --btn-bg: transparent;
+    --btn-fg: var(--paper);
+    border-color: var(--line-inverse);
+  }
+
+  /* Lives here, not in layout: `.btn` sets its own custom properties in this
+     layer, and layer order beats specificity. */
+  :root[data-top-tone='light'] .topbar__cta {
+    --btn-bg: var(--ink);
+    --btn-fg: var(--paper);
+  }
+
+  /* --- chapter furniture --------------------------------------------- */
+  .chapter__tag {
+    position: absolute;
+    left: var(--gutter);
+    bottom: var(--space-md);
+    color: var(--text-faint);
+  }
+
+  .stage-caption {
+    color: var(--text-faint);
+    max-width: 22ch;
+    line-height: 1.5;
+  }
+
+  .cue {
+    position: absolute;
+    left: 50%;
+    bottom: var(--space-md);
+    translate: -50% 0;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text-faint);
+  }
+
+  .cue__line {
+    width: 1px;
+    height: 3.5rem;
+    background: linear-gradient(var(--line-strong), transparent);
+  }
+
+  /* --- rail (section progress) --------------------------------------- */
+  .rail {
+    position: fixed;
+    right: calc(var(--gutter) - 0.5rem);
+    top: 50%;
+    translate: 0 -50%;
+    z-index: var(--z-rail);
+    display: grid;
+    grid-template-columns: 1px minmax(0, 1fr);
+    gap: var(--space-sm);
+    align-items: stretch;
+    justify-items: end;
+    width: var(--rail-span);
+  }
+
+  .rail__track {
+    position: relative;
+    width: 1px;
+    background: var(--line-inverse);
+    margin-block: 0.4rem;
+  }
+
+  .rail__fill {
+    position: absolute;
+    inset: 0 0 auto;
+    height: var(--rail-progress, 0%);
+    background: var(--signal);
+  }
+
+  .rail__list {
+    display: grid;
+    gap: 0.7rem;
+    width: 100%;
+    justify-items: end;
+    margin: 0;
+    list-style: none;
+  }
+
+  .rail__list li {
+    display: flex;
+    /* numerals pin to the rail's right edge and the label wipes open leftward,
+       in toward the copy — so scrolling never shuffles the numbers sideways */
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 0.55rem;
+    color: color-mix(in srgb, var(--paper) 40%, transparent);
+    transition: color var(--dur-mid) var(--ease-out);
+  }
+
+  .rail__list li.is-active {
+    color: var(--paper);
+  }
+
+  .rail__label {
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 0;
+    transition:
+      max-width var(--dur-slow) var(--ease-out),
+      opacity var(--dur-mid) var(--ease-out);
+  }
+
+  .rail__list li.is-active .rail__label {
+    max-width: 10rem;
+    opacity: 1;
+  }
+
+  @media (hover: hover) {
+    .rail__list li:hover .rail__label {
+      max-width: 10rem;
+      opacity: 1;
+    }
+  }
+
+  /* The rail and the topbar are fixed, so they cannot inherit a chapter's
+     palette. scrub.js publishes the tone they are sitting on instead. */
+  :root[data-rail-tone='light'] .rail__track {
+    background: color-mix(in srgb, var(--ink) 18%, transparent);
+  }
+
+  :root[data-rail-tone='light'] .rail__list li {
+    color: color-mix(in srgb, var(--ink) 40%, transparent);
+  }
+
+  :root[data-rail-tone='light'] .rail__list li.is-active {
+    color: var(--ink);
+  }
+
+  /* --- reveal system -------------------------------------------------- */
+  /* Path A: CSS scroll-driven animation (Chrome/Edge 115+) — zero JS cost. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      [data-reveal] {
+        animation: reveal-in linear both;
+        animation-timeline: view();
+        animation-range: entry 8% cover 34%;
+      }
+    }
+  }
+
+  /* Path B: JavaScript observer — class is added only when Path A is unsupported. */
+  @media (prefers-reduced-motion: no-preference) {
+    .js-reveal [data-reveal] {
+      opacity: 0;
+      transform: translate3d(0, 2.4rem, 0);
+      transition:
+        opacity var(--dur-slow) var(--ease-out),
+        transform 1.1s var(--ease-out);
+      transition-delay: var(--reveal-delay, 0ms);
+    }
+
+    .js-reveal [data-reveal].is-in {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes reveal-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 2.4rem, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Hero entrance: runs once on load, never on a loop. */
+  @media (prefers-reduced-motion: no-preference) {
+    [data-enter] {
+      animation: reveal-in 1s var(--ease-out) both;
+    }
+
+    [data-enter='1'] { animation-delay: 0.12s; }
+    [data-enter='2'] { animation-delay: 0.22s; }
+    [data-enter='3'] { animation-delay: 0.34s; }
+    [data-enter='4'] { animation-delay: 0.44s; }
+    [data-enter='5'] { animation-delay: 0.7s; }
+  }
+
+  /* --- reduced motion / no transparency / forced colours --------------- */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+
+    .grain {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .is-scrolled .topbar {
+      background-color: var(--ink);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+
+    :root[data-top-tone='light'].is-scrolled .topbar {
+      background-color: var(--paper);
+    }
+  }
+
+  @media (forced-colors: active) {
+    .btn,
+    .tier,
+    .program {
+      border-color: currentColor;
+    }
+
+    .rail {
+      display: none;
+    }
+  }
+
+  /* --- narrow viewport: the fixed furniture steps aside ------------------ */
+  /* Both switches have to live in this layer. `.btn` and `.rail` declare their own
+     `display` here, and layer order beats specificity, so the identical rules in
+     layout.css' narrow branch were silently losing: the rail kept painting over
+     mobile copy and the topbar pill pushed the menu button off screen. */
+  .nav__cta {
+    /* desktop keeps its single CTA in the topbar */
+    display: none;
+  }
+
+  @media (max-width: 59.99rem) {
+    .rail,
+    .topbar__cta {
+      display: none;
+    }
+
+    /* the booking CTA moves into the menu panel rather than disappearing */
+    .nav__cta {
+      display: inline-flex;
+      justify-content: center;
+      margin-top: var(--space-xl);
+    }
+
+    /* touch controls get a full 44px target instead of the desktop pill height */
+    .btn {
+      min-height: var(--tap-min);
+    }
+  }
+
+  /* A full-viewport soft-light blend costs a compositing pass every frame over the
+     WebGL canvas. Keep it on pointers that can afford it; phones don't need the
+     grain enough to pay for it. */
+  @media (pointer: coarse) {
+    .grain {
+      display: none;
+    }
+  }
+}

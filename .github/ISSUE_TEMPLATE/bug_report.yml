@@ -1,0 +1,89 @@
+name: Bug report
+description: Something is broken on the site — layout, interaction, or the 3D stage.
+title: "bug: "
+labels:
+  - bug
+  - needs-triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Layout bugs here are almost always viewport-specific, so the
+        device fields below matter more than the prose. If the report is security-related,
+        stop and use SECURITY.md instead — do not file it here.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happens
+      description: What you see, and what you expected instead.
+      placeholder: The chapter tag prints over the hero facts at 390px wide.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open the hero section
+        2. Scroll until the facts row is on the fold
+        3. Note the overlap
+    validations:
+      required: true
+  - type: input
+    id: viewport
+    attributes:
+      label: Viewport size (CSS pixels)
+      description: Browser window or device resolution, width × height. A screenshot alone cannot tell these apart.
+      placeholder: 390 × 844
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device, OS and browser
+      placeholder: iPhone 13 mini, iOS 18.3, Safari
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      multiple: true
+      options:
+        - Layout / CSS
+        - Mobile menu or navigation
+        - Scroll behaviour or the rail
+        - 3D stage / WebGL
+        - Type, colour or contrast
+        - Performance or battery
+        - Measurement harness (tools/harness)
+        - Build, CI or tooling
+    validations:
+      required: true
+  - type: checkboxes
+    id: conditions
+    attributes:
+      label: Conditions that applied
+      options:
+        - label: Reduced motion enabled
+        - label: Touch device (no hover)
+        - label: Rotated to landscape
+        - label: WebGL unavailable or blocked
+        - label: Happens on a fresh load (not only after resizing)
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Screenshot, recording, or harness output. Numbers beat adjectives.
+      render: text
+    validations:
+      required: false
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I checked this is not already reported
+          required: true
+        - label: I reproduced it on a fresh load
+          required: true

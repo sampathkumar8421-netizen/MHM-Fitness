@@ -1,0 +1,24 @@
+# graphify ignores: build output, dependencies, generated logs and graph artifacts.
+# Kept in step with .gitignore, with two deliberate differences: the graph also skips
+# `public/` and `package-lock.json` as noise, while git must track both (the favicon
+# ships to the browser, and `npm ci` needs the lockfile).
+node_modules/
+dist/
+public/
+graphify-out/
+tools/harness/screens/
+tools/harness/reports/
+*.log
+build.log
+preview.log
+package-lock.json
+
+dist/
+public/
+graphify-out/
+tools/harness/screens/
+tools/harness/reports/
+*.log
+build.log
+preview.log
+package-lock.json

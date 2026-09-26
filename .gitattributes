@@ -1,0 +1,22 @@
+# Normalise every text file to LF in the repository, whatever the authoring OS.
+# The working tree on Windows was authored with CRLF, so the first `git add` prints
+# "CRLF will be replaced by LF" for those files — that is expected and one-off.
+* text=auto eol=lf
+
+# Windows-only script types must stay CRLF or their interpreter mis-parses them.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary assets: never diff, never normalise.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.avif binary
+*.ico  binary
+*.woff binary
+*.woff2 binary
+*.mp4  binary
+*.glb  binary

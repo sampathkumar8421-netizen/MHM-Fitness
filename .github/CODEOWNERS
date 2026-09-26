@@ -1,0 +1,13 @@
+# CODEOWNERS — who is asked to review a change.
+#
+# This repository is currently single-maintainer, so one rule covers everything.
+# GitHub only *enforces* these reviews once "Require review from Code Owners" is
+# enabled in Settings → Branches for `main`; without that it is advisory metadata.
+#
+# Keep this list short. Add narrower rules here rather than inventing new files if
+# the team grows, e.g.:
+#
+#   /src/styles/    @owner-a
+#   /tools/harness/ @owner-b
+
+* @sampathkumar8421-netizen

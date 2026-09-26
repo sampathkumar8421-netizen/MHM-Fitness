@@ -1,0 +1,145 @@
+/* ==========================================================================
+   tokens.css — the whole visual contract in one place.
+   Palette: paper + ink + exactly one signal colour. No gradients-as-decoration.
+   ========================================================================== */
+
+@layer tokens {
+  :root {
+    /* Let the browser paint native UI (form controls, scrollbars, tap highlights)
+       in the page's own mode instead of a light default. */
+    color-scheme: dark;
+
+    /* --- mobile safe areas --------------------------------------------- */
+    /* `viewport-fit=cover` in index.html opts the layout into the notch/home
+       indicator; these fall back to 0px everywhere else. Anything pinned to a
+       viewport edge (topbar, menu panel, footer) adds the matching inset. */
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+
+    /* WCAG 2.5.8 asks for 24px minimum; Apple/Google ask for 44. Controls that
+       can grow use this, and inline footer links get it as a min-height. */
+    --tap-min: 44px;
+
+    /* --- surface ------------------------------------------------------- */
+    /* Dark end to end. This is the whole surface ladder, darkest first: `--ink`
+       is the bed (and the WebGL clear colour), `--ink-soft` the first lift,
+       `--ink-raise` the editorial chapters. The light ramp below is now only
+       ever text, buttons, selection and hairlines — never a surface. */
+    --ink: #0c0c0b;
+    --ink-soft: #161614;
+    --ink-raise: #1a1a17;
+
+    --paper: #efede7;
+    --paper-dim: #e5e2da;
+    --paper-lift: #f6f5f1;
+
+    /* --- text ---------------------------------------------------------- */
+    --text: var(--ink);
+    --text-mute: color-mix(in srgb, var(--ink) 58%, transparent);
+    --text-faint: color-mix(in srgb, var(--ink) 38%, transparent);
+    --text-inverse: var(--paper);
+    --text-inverse-mute: color-mix(in srgb, var(--paper) 62%, transparent);
+
+    /* --- one signal. used for emphasis, never for body copy ------------ */
+    --signal: #e8410e;
+    --signal-ink: #c9360b;
+
+    /* --- hairlines ----------------------------------------------------- */
+    --line: color-mix(in srgb, var(--ink) 14%, transparent);
+    --line-strong: color-mix(in srgb, var(--ink) 28%, transparent);
+    --line-inverse: color-mix(in srgb, var(--paper) 18%, transparent);
+
+    /* --- type ---------------------------------------------------------- */
+    --font-display: 'Instrument Serif', 'Iowan Old Style', 'Times New Roman', serif;
+    --font-sans: 'Instrument Sans Variable', 'Instrument Sans', system-ui, -apple-system,
+      'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, 'SFMono-Regular',
+      Consolas, monospace;
+
+    --step--1: clamp(0.75rem, 0.72rem + 0.1vw, 0.8rem);
+    --step-0: clamp(0.94rem, 0.9rem + 0.2vw, 1.05rem);
+    --step-1: clamp(1.1rem, 1rem + 0.5vw, 1.35rem);
+    --step-2: clamp(1.5rem, 1.25rem + 1.1vw, 2.1rem);
+    --step-3: clamp(2rem, 1.5rem + 2.2vw, 3.25rem);
+    --step-4: clamp(2.6rem, 1.6rem + 4.4vw, 5.4rem);
+    --step-5: clamp(3.4rem, 1.4rem + 8.2vw, 9.5rem);
+
+    --leading-tight: 0.94;
+    --leading-snug: 1.14;
+    --leading-body: 1.6;
+    --tracking-display: -0.028em;
+    --tracking-mono: 0.14em;
+
+    /* --- rhythm -------------------------------------------------------- */
+    --space-2xs: 0.375rem;
+    --space-xs: 0.75rem;
+    --space-sm: 1.25rem;
+    --space-md: 2rem;
+    --space-lg: 3.25rem;
+    --space-xl: 5rem;
+    --space-2xl: 8rem;
+    --space-3xl: 12rem;
+
+    --gutter: clamp(1.25rem, 4vw, 4.5rem);
+    --measure: 68ch;
+    --shell: 84rem;
+    /* the rail is fixed, so its width is fixed too — numerals never shift as
+       the active chapter's label opens */
+    --rail-span: 9.5rem;
+    --rail-gap: 2rem;
+    /* The rail is tied to the viewport, the copy to the centred shell, so the band
+       the rail steals from the content grows as the viewport narrows: 88px inside
+       the shell at 1600, ~200px at 1100. Content and right-hand furniture reserve
+       exactly that much, which is why this cannot be a fixed length. */
+    --rail-band: calc(var(--rail-span) + var(--rail-gap));
+    --shell-margin: max(0px, (100vw - var(--shell)) / 2);
+    /* right-hand furniture and the shell's own edge stop clear of the rail's band */
+    --rail-safe: max(var(--gutter), calc(var(--gutter) - 0.5rem + var(--rail-band) - var(--shell-margin)));
+
+    /* --- form ---------------------------------------------------------- */
+    --r-sm: 2px;
+    --r-md: 3px;
+    --r-pill: 999px;
+    --hairline: 1px;
+
+    /* --- motion -------------------------------------------------------- */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+    --dur-fast: 180ms;
+    --dur-mid: 420ms;
+    --dur-slow: 900ms;
+
+    /* --- layers -------------------------------------------------------- */
+    --z-stage: 0;
+    --z-content: 1;
+    --z-rail: 6;
+    --z-topbar: 8;
+    --z-grain: 9;
+    --z-menu: 10;
+  }
+
+  /* Chapter palette flip: every chapter surface is dark now, so quoted copy,
+     hairlines and faint text all take their inverse (paper) values. */
+  .chapter--stage,
+  .chapter--ink,
+  .chapter--editorial {
+    --text: var(--text-inverse);
+    --text-mute: var(--text-inverse-mute);
+    --text-faint: color-mix(in srgb, var(--paper) 40%, transparent);
+    --line: var(--line-inverse);
+    --line-strong: color-mix(in srgb, var(--paper) 34%, transparent);
+    /* `--signal-ink` is the signal pitched for light surfaces (≈3.3:1 on paper).
+       On ink the brighter signal is the legible one (≈4.5:1), so the dark
+       chapters flip it back rather than shipping an unreadable second colour. */
+    --signal-ink: var(--signal);
+  }
+
+  .chapter--stage {
+    /* the palette flip is a variable change, so colour must be set here too:
+       `color` inherits as a computed value and would otherwise stay ink */
+    color: var(--text);
+    background-color: transparent;
+  }
+}

@@ -1,0 +1,6 @@
+/* ==========================================================================
+   layers.css — the cascade order, declared once and up front.
+   Imports every other sheet as its own file so nothing can reorder the layers.
+   ========================================================================== */
+
+@layer reset, tokens, base, layout, components, sections, utilities;

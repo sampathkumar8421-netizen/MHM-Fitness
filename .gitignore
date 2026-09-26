@@ -1,0 +1,37 @@
+# Git ignores. Mirrors .graphifyignore (which feeds the knowledge graph) but is not
+# identical on purpose: the graph skips `public/` and `package-lock.json` as noise,
+# whereas git MUST track both — the favicon ships to the browser and `npm ci` in CI
+# needs the lockfile.
+
+# ---- dependencies ---------------------------------------------------------
+node_modules/
+
+# ---- build output ---------------------------------------------------------
+dist/
+
+# ---- logs -----------------------------------------------------------------
+*.log
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---- generated QA artifacts (tools/harness output) -------------------------
+tools/harness/screens/
+tools/harness/reports/
+
+# ---- knowledge graph (graphify) -------------------------------------------
+graphify-out/
+
+# ---- environment / secrets ------------------------------------------------
+.env
+.env.*
+!.env.example
+
+# ---- editor + OS ----------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json

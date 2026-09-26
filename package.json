@@ -1,0 +1,41 @@
+{
+  "name": "mhm-fitness",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "MHM Fitness — minimalist gym landing page with scroll-driven 3D (Three.js + Vite).",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sampathkumar8421-netizen/MHM-Fitness.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sampathkumar8421-netizen/MHM-Fitness/issues"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4173",
+    "verify:build": "node tools/ci/verify-build.mjs",
+    "verify:mobile": "node tools/ci/verify-mobile.mjs",
+    "harness:probe": "node tools/harness/mhm-probe.mjs",
+    "harness:shot": "node tools/harness/mhm-shot.mjs",
+    "harness:audit": "node tools/harness/mhm-audit.mjs",
+    "harness:mobile": "node tools/harness/mhm-mobile.mjs",
+    "graph": "graphify extract . --code-only",
+    "graph:report": "graphify cluster-only . --no-label",
+    "graph:update": "graphify update ."
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "dependencies": {
+    "@fontsource-variable/instrument-sans": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource/instrument-serif": "^5.3.0",
+    "three": "^0.186.0"
+  },
+  "devDependencies": {
+    "vite": "^8.3.0"
+  }
+}

@@ -1,0 +1,80 @@
+name: Pages
+
+# Publishes dist/ to GitHub Pages.
+#
+# GATED ON PURPOSE: the deploy job only runs when Pages has actually been enabled for
+# this repository (Settings → Pages → Source: GitHub Actions). Until then every push
+# stays green and `deploy` is skipped, so an unconfigured repo never shows a red X.
+#
+# vite.config.js sets base: './', so the same build works at a domain root or at
+# https://<owner>.github.io/MHM-Fitness/ with no changes.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm run verify:build
+      - uses: actions/configure-pages@v5
+        id: pages
+        continue-on-error: true
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
+
+  check-pages:
+    name: is Pages enabled?
+    runs-on: ubuntu-latest
+    outputs:
+      enabled: ${{ steps.probe.outputs.enabled }}
+    steps:
+      - name: Probe the Pages API
+        id: probe
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pages")
+          if [ "$code" = "200" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+            echo "Pages is enabled — deploy will run."
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=Pages not enabled::Enable Settings → Pages → Source: GitHub Actions to publish dist/. This run skips deploy."
+          fi
+
+  deploy:
+    name: deploy
+    needs: [build, check-pages]
+    if: needs.check-pages.outputs.enabled == 'true' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

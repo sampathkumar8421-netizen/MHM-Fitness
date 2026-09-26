@@ -1,0 +1,376 @@
+/* ==========================================================================
+   layout.css — page furniture: stage layers, topbar, nav, rail, chapters.
+   ========================================================================== */
+
+@layer layout {
+  .stage {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: var(--z-stage);
+    background-color: var(--ink);
+    pointer-events: none;
+    touch-action: pan-y;
+  }
+
+  /* Two cheap, GPU-friendly film layers over the WebGL canvas. */
+  .vignette {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(
+      120% 90% at 50% 42%,
+      transparent 42%,
+      color-mix(in srgb, #000 55%, transparent) 100%
+    );
+  }
+
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-grain);
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+  }
+
+  /* WebGL unavailable → this is the stage instead. */
+  .poster {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-stage);
+    display: none;
+    place-items: center;
+    background: radial-gradient(120% 90% at 50% 40%, var(--ink-soft), var(--ink) 70%);
+  }
+
+  .poster__plate {
+    width: min(46vw, 30rem);
+    height: auto;
+  }
+
+  .no-webgl .stage {
+    display: none;
+  }
+
+  .no-webgl .poster {
+    display: grid;
+  }
+
+  /* --- chapters ------------------------------------------------------ */
+  .chapter {
+    position: relative;
+    z-index: var(--z-content);
+  }
+
+  /* Editorial chapters: the former paper bands, now a raised ink. Alternating
+     ink / raised ink keeps the chapter rhythm the layout was designed around
+     without putting a single light surface on the page. */
+  .chapter--editorial {
+    background-color: var(--ink-raise);
+    color: var(--text);
+    padding-block: var(--space-2xl);
+    border-top: var(--hairline) solid var(--line-inverse);
+  }
+
+  .chapter--stage {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding-block: var(--space-2xl);
+  }
+
+  .chapter--hero {
+    min-height: 100svh;
+    padding-block: var(--space-xl) var(--space-lg);
+  }
+
+  .chapter__head {
+    display: grid;
+    gap: var(--space-md);
+    padding-bottom: var(--space-lg);
+  }
+
+  /* --- topbar -------------------------------------------------------- */
+  .topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-topbar);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    /* safe-area insets keep the bar clear of a notch and the home indicator */
+    padding: calc(var(--space-sm) + var(--safe-top)) calc(var(--gutter) + var(--safe-right))
+      var(--space-sm) calc(var(--gutter) + var(--safe-left));
+    color: var(--paper);
+    border-bottom: var(--hairline) solid transparent;
+    transition:
+      background-color var(--dur-mid) var(--ease-out),
+      border-color var(--dur-mid) var(--ease-out),
+      backdrop-filter var(--dur-mid) var(--ease-out);
+  }
+
+  .is-scrolled .topbar {
+    background-color: color-mix(in srgb, var(--ink) 72%, transparent);
+    border-bottom-color: var(--line-inverse);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .brand__mark {
+    width: 1.55rem;
+    height: 1.55rem;
+    flex: none;
+  }
+
+  .brand__meta {
+    color: color-mix(in srgb, var(--paper) 55%, transparent);
+    padding-left: 0.6rem;
+    border-left: var(--hairline) solid var(--line-inverse);
+    display: none;
+  }
+
+  @media (hover: hover) {
+    .brand:hover .brand__mark {
+      transform: rotate(45deg);
+    }
+  }
+
+  .brand__mark {
+    transition: transform var(--dur-slow) var(--ease-out);
+  }
+
+  .nav {
+    margin-left: auto;
+  }
+
+  .nav__list {
+    display: flex;
+    gap: clamp(1rem, 2vw, 2.25rem);
+    margin: 0;
+    list-style: none;
+  }
+
+  .nav__list a {
+    position: relative;
+    text-decoration: none;
+    font-size: var(--step--1);
+    font-family: var(--font-mono);
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--paper) 74%, transparent);
+    padding-block: 0.35rem;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .nav__list a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur-mid) var(--ease-out);
+  }
+
+  .nav__list a[aria-current='true'] {
+    color: var(--paper);
+  }
+
+  .nav__list a[aria-current='true']::after {
+    transform: scaleX(1);
+  }
+
+  /* Hover is a fine-pointer affordance: on touch a tapped link kept the hover
+     colour and underline after the finger left. */
+  @media (hover: hover) {
+    .nav__list a:hover {
+      color: var(--paper);
+    }
+
+    .nav__list a:hover::after {
+      transform: scaleX(1);
+    }
+  }
+
+  .menu-btn {
+    display: none;
+  }
+
+  .topbar__cta {
+    flex: none;
+  }
+
+  .is-scrolled .topbar .nav__list a {
+    color: color-mix(in srgb, var(--paper) 70%, transparent);
+  }
+
+  /* Editorial chapters are paper — the fixed topbar flips with them, or it reads
+     as a grey slab laid across the page. Tone is published by scrub.js. */
+  :root[data-top-tone='light'] .topbar {
+    color: var(--ink);
+  }
+
+  :root[data-top-tone='light'].is-scrolled .topbar {
+    background-color: color-mix(in srgb, var(--paper) 82%, transparent);
+    border-bottom-color: color-mix(in srgb, var(--ink) 14%, transparent);
+  }
+
+  :root[data-top-tone='light'] .topbar .nav__list a {
+    color: color-mix(in srgb, var(--ink) 58%, transparent);
+  }
+
+  :root[data-top-tone='light'] .topbar .nav__list a:hover,
+  :root[data-top-tone='light'] .topbar .nav__list a[aria-current='true'] {
+    color: var(--ink);
+  }
+
+  .chapter__inner {
+    position: relative;
+  }
+
+  /* --- narrow: the navigation becomes a full-height panel ------------ */
+  @media (max-width: 59.99rem) {
+    .brand__meta {
+      display: none;
+    }
+
+    .brand {
+      min-height: var(--tap-min);
+    }
+
+    .nav {
+      position: fixed;
+      inset: 0;
+      /* deliberately under the topbar: the close control must stay reachable */
+      z-index: 7;
+      display: grid;
+      /* `safe` keeps the first link reachable when the panel overflows: plain
+         centring puts the overflow on both sides, and scrollTop cannot go
+         negative to reach the top half. */
+      align-content: center;
+      align-content: safe center;
+      padding: calc(var(--space-2xl) + var(--safe-top)) calc(var(--gutter) + var(--safe-right))
+        calc(var(--space-xl) + var(--safe-bottom)) calc(var(--gutter) + var(--safe-left));
+      background-color: color-mix(in srgb, var(--ink) 95%, transparent);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      opacity: 0;
+      visibility: hidden;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      transition:
+        opacity var(--dur-mid) var(--ease-out),
+        visibility var(--dur-mid) var(--ease-out);
+    }
+
+    .menu-open .nav {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .nav__list {
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .nav__list a {
+      font-family: var(--font-display);
+      font-size: var(--step-3);
+      letter-spacing: var(--tracking-display);
+      text-transform: none;
+      color: var(--paper);
+    }
+
+    .nav__list a::after {
+      display: none;
+    }
+
+    .menu-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      min-height: var(--tap-min);
+      margin-left: auto;
+      padding: 0.55rem 0.9rem;
+      background: transparent;
+      color: var(--paper);
+      border: var(--hairline) solid var(--line-inverse);
+      border-radius: var(--r-pill);
+      cursor: pointer;
+    }
+
+    :root[data-top-tone='light'] .menu-btn {
+      color: var(--ink);
+      border-color: color-mix(in srgb, var(--ink) 24%, transparent);
+    }
+
+    /* the panel is ink, whatever chapter is behind it */
+    :root[data-top-tone='light'] .topbar .nav__list a,
+    :root[data-top-tone='light'].menu-open .menu-btn {
+      color: var(--paper);
+    }
+
+    :root[data-top-tone='light'].menu-open .menu-btn {
+      border-color: var(--line-inverse);
+    }
+
+    .menu-btn__label {
+      font-family: var(--font-mono);
+      font-size: var(--step--1);
+      letter-spacing: var(--tracking-mono);
+      text-transform: uppercase;
+    }
+
+    .menu-btn__bars {
+      display: grid;
+      gap: 4px;
+      width: 1rem;
+    }
+
+    .menu-btn__bars i {
+      display: block;
+      height: 1px;
+      background: currentColor;
+      transition: transform var(--dur-mid) var(--ease-out);
+    }
+
+    .menu-open .menu-btn__bars i:first-child {
+      transform: translateY(2.5px) rotate(45deg);
+    }
+
+    .menu-open .menu-btn__bars i:last-child {
+      transform: translateY(-2.5px) rotate(-45deg);
+    }
+
+    /* the topbar pill and the rail switch off for narrow viewports in
+       components.css — their `display` lives in that layer, which outranks this one */
+
+    .menu-open .topbar {
+      background-color: transparent;
+      border-color: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+}

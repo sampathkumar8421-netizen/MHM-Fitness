@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: build (node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 22 is the oldest line Vite 8 accepts (^20.19.0 || >=22.12.0); 24 is what
+        # .nvmrc pins and what the repo is developed on.
+        node: ['22', '24']
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      - name: Install (clean)
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify build contracts
+        run: npm run verify:build
+
+      - name: Upload dist
+        if: matrix.node == '24'
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 7
+          if-no-files-found: error
+
+  # The measurement harness needs a real Chrome at a Windows path, so it lives in
+  # mobile-qa.yml (workflow_dispatch + windows-latest) instead of this job.
+  bundle-report:
+    name: bundle weight
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Job summary
+        run: |
+          {
+            echo '### Bundle'
+            echo ''
+            echo '```'
+            du -h dist/assets/* | sort -h
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/sampathkumar8421-netizen/MHM-Fitness/security/advisories/new
+    about: Report privately. Do not open a public issue for security problems.
+  - name: How the measurement harness works
+    url: https://github.com/sampathkumar8421-netizen/MHM-Fitness/blob/main/tools/harness/README.md
+    about: Read this before reporting that a layout number "looks wrong".
+  - name: Known limitations and deferred work
+    url: https://github.com/sampathkumar8421-netizen/MHM-Fitness/blob/main/README.md#known-limitations
+    about: Already-documented gaps, including the Windows-only harness and WebGL restore.

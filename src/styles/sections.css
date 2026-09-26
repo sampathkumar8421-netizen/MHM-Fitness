@@ -1,0 +1,948 @@
+/* ==========================================================================
+   sections.css — one block per chapter. Layouts are bespoke, not templated.
+   ========================================================================== */
+
+@layer sections {
+  /* --- hero ---------------------------------------------------------- */
+  .chapter--hero .chapter__inner {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: var(--space-lg);
+    min-height: calc(100svh - var(--space-xl));
+    padding-top: var(--space-xl);
+  }
+
+  .chapter--hero h1 {
+    align-self: center;
+    margin-block: 0;
+  }
+
+  .hero__foot {
+    display: grid;
+    gap: var(--space-md);
+    align-items: end;
+  }
+
+  .hero__foot .lede {
+    max-width: 36ch;
+  }
+
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm) var(--space-lg);
+    margin: 0;
+    padding-top: var(--space-sm);
+    border-top: var(--hairline) solid var(--line);
+  }
+
+  .facts__item {
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .facts dt {
+    color: var(--text-faint);
+  }
+
+  .facts dd {
+    margin: 0;
+    color: var(--text);
+    font-size: var(--step-0);
+  }
+
+  /* --- 01 standard --------------------------------------------------- */
+  .standard .chapter__head {
+    max-width: 62rem;
+  }
+
+  .standard__body {
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: var(--space-md);
+    margin: 0;
+    border-top: var(--hairline) solid var(--line);
+  }
+
+  .stats__item {
+    padding-top: var(--space-sm);
+  }
+
+  .stats__value {
+    display: block;
+    font-size: var(--step-3);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+
+  .stats__label {
+    display: block;
+    margin-top: 0.6rem;
+    color: var(--text-faint);
+  }
+
+  .side-note {
+    color: var(--text-faint);
+    padding-top: var(--space-sm);
+    border-top: var(--hairline) solid var(--line);
+    max-width: 46ch;
+    line-height: 1.6;
+  }
+
+  /* --- stage chapters (02, 03, 07) ----------------------------------- */
+  .progression,
+  .method,
+  .visit {
+    min-height: 150svh;
+    align-items: stretch;
+  }
+
+  .progression__layout,
+  .method__layout,
+  .visit__layout {
+    position: relative;
+    display: grid;
+    width: 100%;
+    gap: var(--space-lg);
+    padding-block: var(--space-2xl);
+    align-content: start;
+  }
+
+  .progression__copy,
+  .method__copy,
+  .visit__copy {
+    display: grid;
+    gap: var(--space-md);
+    align-self: start;
+  }
+
+  .notes,
+  .rules {
+    display: grid;
+    gap: var(--space-md);
+    margin: 0;
+    list-style: none;
+  }
+
+  .notes__item,
+  .rules__item {
+    display: grid;
+    gap: 0.5rem;
+    padding-top: var(--space-sm);
+    border-top: var(--hairline) solid var(--line);
+  }
+
+  .notes__num,
+  .rules__num {
+    color: var(--text-faint);
+  }
+
+  .notes__title,
+  .rules__title {
+    font-size: var(--step-1);
+    line-height: var(--leading-snug);
+  }
+
+  .notes__body,
+  .rules__body {
+    color: var(--text-mute);
+    max-width: 42ch;
+  }
+
+  .rules__item {
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .method__intro {
+    max-width: 38ch;
+  }
+
+  /* --- scrub ticker --------------------------------------------------- */
+  .ticker {
+    position: relative;
+    z-index: var(--z-content);
+    background-color: var(--ink-raise);
+    color: var(--text);
+    overflow: hidden;
+    padding-block: var(--space-lg);
+    border-top: var(--hairline) solid var(--line-inverse);
+    mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+  }
+
+  .ticker__track {
+    display: flex;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    white-space: nowrap;
+    font-family: var(--font-display);
+    font-size: var(--step-4);
+    line-height: 1;
+    letter-spacing: var(--tracking-display);
+    transform: translate3d(var(--ticker-shift, 0px), 0, 0);
+    will-change: transform;
+  }
+
+  .ticker__track span:nth-child(4n + 1) {
+    color: var(--signal);
+  }
+
+  .ticker__track span:nth-child(4n + 3) {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--line-strong);
+    text-stroke: 1px var(--line-strong);
+  }
+
+  /* --- 04 programs ---------------------------------------------------- */
+  .programs__grid {
+    display: grid;
+    gap: var(--hairline);
+    background-color: var(--line);
+    border: var(--hairline) solid var(--line);
+  }
+
+  /* Cards are wells cut into the raised band — the same ink/ink-soft/paper-hairline
+     relationship the membership tiers use, so the two grids read as one system. */
+  .program {
+    display: grid;
+    gap: var(--space-sm);
+    align-content: start;
+    padding: var(--space-lg) var(--space-md);
+    background-color: var(--ink);
+    transition: background-color var(--dur-mid) var(--ease-out);
+  }
+
+  @media (hover: hover) {
+    .program:hover {
+      background-color: var(--ink-soft);
+    }
+  }
+
+  .program__num {
+    color: var(--text-faint);
+  }
+
+  .program__name {
+    margin: 0;
+  }
+
+  .program__body {
+    color: var(--text-mute);
+    max-width: 44ch;
+  }
+
+  .program__meta {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0;
+    padding-top: var(--space-sm);
+    border-top: var(--hairline) solid var(--line);
+  }
+
+  .program__meta > div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-sm);
+  }
+
+  .program__meta dt {
+    color: var(--text-faint);
+  }
+
+  .program__meta dd {
+    margin: 0;
+  }
+
+  .program__includes {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0;
+    list-style: none;
+    color: var(--text-mute);
+  }
+
+  .program__includes li {
+    position: relative;
+    padding-left: 1.15rem;
+  }
+
+  .program__includes li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 0.5rem;
+    height: 1px;
+    background: var(--signal);
+  }
+
+  .programs__note {
+    color: var(--text-faint);
+    max-width: 58ch;
+    line-height: 1.6;
+    margin-top: var(--space-lg);
+  }
+
+  /* --- 05 coaches ----------------------------------------------------- */
+  .coach-list {
+    display: grid;
+    margin: 0;
+    list-style: none;
+    border-top: var(--hairline) solid var(--line);
+  }
+
+  .coach {
+    position: relative;
+    display: grid;
+    gap: 0.45rem;
+    padding-block: var(--space-md);
+    border-bottom: var(--hairline) solid var(--line);
+  }
+
+  .coach::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 0;
+    height: 1px;
+    background: var(--signal);
+    transition: width var(--dur-slow) var(--ease-out);
+  }
+
+  .coach:focus-within::after {
+    width: 100%;
+  }
+
+  @media (hover: hover) {
+    .coach:hover::after {
+      width: 100%;
+    }
+  }
+
+  .coach__num {
+    color: var(--text-faint);
+  }
+
+  .coach__name {
+    margin: 0;
+  }
+
+  .coach__role {
+    color: var(--signal-ink);
+    /* Fallback only: the role track is given a length that fits its longest word in the
+       band where reserving the rail's space squeezes it (see the coach grid). If a
+       future role ever contains a longer word, this breaks it inside the track instead
+       of letting its ink escape across the gutter into the bio column. */
+    overflow-wrap: break-word;
+  }
+
+  .coach__bio {
+    color: var(--text-mute);
+    max-width: 46ch;
+  }
+
+  .coach-list__more {
+    color: var(--text-faint);
+    margin-top: var(--space-md);
+  }
+
+  /* --- 06 membership (ink chapter) ------------------------------------ */
+  .chapter--ink {
+    background-color: var(--ink);
+    color: var(--paper);
+    padding-block: var(--space-2xl);
+  }
+
+  .tiers {
+    display: grid;
+    gap: var(--hairline);
+    margin: 0;
+    list-style: none;
+    background-color: var(--line-inverse);
+    border: var(--hairline) solid var(--line-inverse);
+  }
+
+  .tier {
+    display: grid;
+    gap: var(--space-sm);
+    align-content: start;
+    padding: var(--space-lg) var(--space-md);
+    background-color: var(--ink);
+    transition: background-color var(--dur-mid) var(--ease-out);
+  }
+
+  .tier--feature {
+    background-color: var(--ink-soft);
+  }
+
+  @media (hover: hover) {
+    .tier:hover {
+      background-color: color-mix(in srgb, var(--ink-soft) 60%, var(--paper) 6%);
+    }
+  }
+
+  .tier__name {
+    color: var(--text-faint);
+  }
+
+  .tier__price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.55rem;
+    margin: 0;
+    font-size: var(--step-3);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tier__unit {
+    color: var(--text-faint);
+  }
+
+  .tier__body {
+    color: var(--text-mute);
+    max-width: 30ch;
+  }
+
+  .tier__flag {
+    color: var(--signal);
+  }
+
+  .membership__note {
+    color: var(--text-faint);
+    max-width: 58ch;
+    line-height: 1.6;
+    margin-top: var(--space-lg);
+  }
+
+  @media (min-width: 58rem) {
+    .tiers {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* --- members quote -------------------------------------------------- */
+  .quote__inner {
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  .quote__figure {
+    display: grid;
+    gap: var(--space-md);
+    margin: 0;
+    max-width: 54rem;
+  }
+
+  .quote__block {
+    margin: 0;
+    font-size: var(--step-4);
+  }
+
+  .quote__block p {
+    margin: 0;
+  }
+
+  .quote__by {
+    color: var(--text-faint);
+  }
+
+  .quote__aside {
+    max-width: 42rem;
+    color: var(--text-mute);
+    padding-top: var(--space-md);
+    border-top: var(--hairline) solid var(--line);
+  }
+
+  .quote__aside-lead,
+  .quote__aside-by {
+    color: var(--text-faint);
+  }
+
+  .quote__aside-by {
+    display: block;
+    margin-top: 0.5rem;
+  }
+
+  /* --- 07 reviews (ink chapter) --------------------------------------- */
+  /* Wells of raised ink cut into the deep-ink band: the mirror of the
+     programs grid, so cards read as lit plaques on the darker chapter. */
+  .reviews__grid {
+    display: grid;
+    gap: var(--hairline);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: var(--line-inverse);
+    border: var(--hairline) solid var(--line-inverse);
+  }
+
+  .review {
+    display: grid;
+    gap: var(--space-md);
+    align-content: space-between;
+    padding: var(--space-lg) var(--space-md);
+    background-color: var(--ink-raise);
+  }
+
+  .review__quote {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    line-height: 1.5;
+  }
+
+  .review__quote p {
+    margin: 0;
+  }
+
+  .review__by {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0;
+    padding-top: var(--space-sm);
+    border-top: var(--hairline) solid var(--line);
+    color: var(--text-faint);
+  }
+
+  .review__name {
+    color: var(--text);
+  }
+
+  .reviews__source {
+    color: var(--text-faint);
+    margin-top: var(--space-lg);
+  }
+
+  @media (min-width: 58rem) {
+    .reviews__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+
+    /* asymmetric on purpose: spans alternate 7/5, 5/7, 6/6 so the wall never
+       reads as a table of equal cells */
+    .review:nth-child(6n + 1),
+    .review:nth-child(6n + 4) {
+      grid-column: span 7;
+    }
+
+    .review:nth-child(6n + 2),
+    .review:nth-child(6n + 3) {
+      grid-column: span 5;
+    }
+
+    .review:nth-child(6n + 5),
+    .review:nth-child(6n + 6) {
+      grid-column: span 6;
+    }
+  }
+
+  /* --- 08 timings ----------------------------------------------------- */
+  .timings__body {
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  .timetable {
+    display: grid;
+    margin: 0;
+    border-top: var(--hairline) solid var(--line);
+  }
+
+  .timetable__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-md);
+    padding: var(--space-sm) 0;
+    border-bottom: var(--hairline) solid var(--line);
+  }
+
+  .timetable dt {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+  }
+
+  .timetable dd {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--step-0);
+    letter-spacing: var(--tracking-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (min-width: 58rem) {
+    .timings__body {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      column-gap: var(--space-xl);
+      align-items: start;
+    }
+  }
+
+  /* --- 09 visit ------------------------------------------------------- */
+  .visit__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .visit__details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: var(--space-md);
+    margin: 0;
+    padding-top: var(--space-md);
+    border-top: var(--hairline) solid var(--line);
+  }
+
+  .visit__detail dt {
+    color: var(--text-faint);
+  }
+
+  .visit__detail dd {
+    margin: 0.5rem 0 0;
+    color: var(--text-mute);
+    line-height: 1.6;
+  }
+
+  /* --- footer --------------------------------------------------------- */
+  .foot {
+    position: relative;
+    z-index: var(--z-content);
+    background-color: var(--ink);
+    color: var(--paper);
+    padding-block: var(--space-xl) var(--space-lg);
+    border-top: var(--hairline) solid var(--line-inverse);
+    --line: var(--line-inverse);
+    --text-faint: color-mix(in srgb, var(--paper) 46%, transparent);
+  }
+
+  .foot__inner {
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  .foot__brand {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .foot__line {
+    color: var(--text-faint);
+  }
+
+  .foot__nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: var(--space-md);
+  }
+
+  .foot__head {
+    color: var(--text-faint);
+    margin-bottom: var(--space-xs);
+  }
+
+  .foot__col ul {
+    display: grid;
+    gap: 0.55rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .foot__col a {
+    color: color-mix(in srgb, var(--paper) 80%, transparent);
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .foot__col a:focus-visible {
+    color: var(--paper);
+  }
+
+  @media (hover: hover) {
+    .foot__col a:hover {
+      color: var(--paper);
+    }
+  }
+
+  .foot__fine {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    padding-top: var(--space-md);
+    border-top: var(--hairline) solid var(--line);
+    color: var(--text-faint);
+    line-height: 1.6;
+  }
+
+  .foot__fine a {
+    color: var(--paper);
+  }
+
+  /* ==================================================================
+     Wide screens: type and sculpture get their own columns. One column is
+     always left deliberately empty — that column belongs to the WebGL stage.
+     ================================================================== */
+  @media (min-width: 64rem) {
+    .hero__foot {
+      grid-template-columns: minmax(0, 34ch) minmax(0, 1fr);
+      column-gap: var(--space-xl);
+    }
+
+    /* The "Scroll" cue is a fold affordance for the narrow layout. Above 64rem the
+       lede/facts row occupies that same bottom band — measured overlap of 3,762px²
+       at 1100–1600px — and the rail already carries position and progress, so the
+       cue stands down rather than printing through the facts. */
+    .chapter--hero .cue {
+      display: none;
+    }
+
+    .facts {
+      justify-content: flex-end;
+    }
+
+    .standard__body {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+      column-gap: var(--space-xl);
+      row-gap: var(--space-lg);
+      align-items: start;
+    }
+
+    .stats {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-content: start;
+    }
+
+    .side-note {
+      grid-column: 1;
+      align-self: end;
+    }
+
+    .progression__layout,
+    .method__layout,
+    .visit__layout {
+      grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.04fr);
+      grid-template-rows: minmax(22rem, 1fr) auto;
+      column-gap: var(--space-xl);
+      padding-block: var(--space-3xl) var(--space-2xl);
+    }
+
+    .progression__copy {
+      grid-column: 1;
+      grid-row: 1;
+      position: sticky;
+      top: clamp(6rem, 18vh, 11rem);
+      align-self: start;
+      max-width: 34rem;
+    }
+
+    /* The sticky constraint rectangle browsers use is the grid container's
+       content box, not the item's grid area — a direct sticky grid item rides
+       down over row 2 at the end of the scroll (the buttons landed on the
+       studio address at every width >= 1024px). The copy therefore sticks
+       inside a cell that stretches to row 1 only, bounding its travel above
+       the details row and its gap. */
+    .visit__cell {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .visit__copy {
+      position: sticky;
+      top: clamp(6rem, 18vh, 11rem);
+      max-width: 34rem;
+    }
+
+    .method__copy {
+      grid-column: 1;
+      grid-row: 1;
+      align-self: start;
+      max-width: 30rem;
+    }
+
+    .method__layout .rules {
+      grid-column: 1;
+      grid-row: 2;
+      max-width: 34rem;
+    }
+
+    .visit__details {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+
+    .stage-caption {
+      position: absolute;
+      /* stops short of the fixed rail instead of running through its numerals */
+      right: var(--rail-safe);
+      bottom: var(--space-lg);
+      text-align: right;
+    }
+
+    .visit__layout .stage-caption {
+      right: auto;
+      left: 0;
+      text-align: left;
+    }
+
+    /* chapters 04 and 05: asymmetic grids, never three equal cards */
+    .programs__grid {
+      grid-template-columns: repeat(12, 1fr);
+    }
+
+    .program--a {
+      grid-column: span 7;
+    }
+
+    .program--b {
+      grid-column: span 5;
+    }
+
+    .program--c {
+      grid-column: span 12;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      grid-template-areas:
+        'num includes'
+        'name includes'
+        'body includes'
+        'meta includes';
+      column-gap: var(--space-xl);
+      row-gap: 0;
+      align-content: start;
+      align-items: start;
+    }
+
+    .program--c .program__num {
+      grid-area: num;
+    }
+
+    .program--c .program__name {
+      grid-area: name;
+    }
+
+    .program--c .program__body {
+      grid-area: body;
+      margin-bottom: var(--space-sm);
+    }
+
+    .program--c .program__includes {
+      grid-area: includes;
+    }
+
+    .program--c .program__meta {
+      grid-area: meta;
+      max-width: 30rem;
+    }
+
+    .coach {
+      grid-template-columns: 4.5rem minmax(0, 13rem) minmax(0, 1fr) minmax(0, 25rem);
+      align-items: baseline;
+      column-gap: var(--space-md);
+    }
+
+    /* Between the rail's introduction (64rem) and the point where the flexible role
+       track has room to breathe (~77rem), reserving the rail's band leaves the role
+       track as little as 0px — narrower than words like "conditioning" (~109px), which
+       then broke mid-word or vanished, and it squeezed the prose column too. Give the
+       role a length that fits its longest word and let the bio absorb the remainder;
+       the bio is capped by its own measure, and rows stay aligned because the role
+       track is a length rather than a content-based size. */
+    @media (max-width: 76.99rem) {
+      .coach {
+        grid-template-columns: 4.5rem minmax(0, 13rem) 7.5rem minmax(0, 1fr);
+      }
+    }
+
+    .foot__inner {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+      column-gap: var(--space-xl);
+    }
+
+    .foot__fine {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* ==================================================================
+     Narrow: the sculpture moves up the frame and the copy sits under it,
+     over a scrim so the type never fights the render.
+     ================================================================== */
+  @media (max-width: 63.99rem) {
+    .chapter--stage {
+      align-items: flex-end;
+    }
+
+    .progression,
+    .method,
+    .visit {
+      min-height: 128svh;
+    }
+
+    .progression__layout,
+    .method__layout,
+    .visit__layout {
+      padding-block: var(--space-xl) var(--space-lg);
+    }
+
+    .chapter--stage .shell::before {
+      content: '';
+      position: absolute;
+      inset: -34% calc(-1 * var(--gutter) - 1px) -6%;
+      z-index: -1;
+      background: linear-gradient(
+        180deg,
+        transparent,
+        color-mix(in srgb, var(--ink) 58%, transparent) 44%,
+        color-mix(in srgb, var(--ink) 88%, transparent)
+      );
+      pointer-events: none;
+    }
+
+    .stage-caption {
+      max-width: 30ch;
+    }
+
+    .cue {
+      display: none;
+    }
+
+    /* The chapter tag is absolutely positioned at the shell's bottom edge. On a
+       phone the hero's facts land on that same line, so the decorative tag
+       printed straight through "Every 12 weeks". The rail it mirrors is hidden
+       at this width anyway, so the tag goes with it. */
+    .chapter__tag {
+      display: none;
+    }
+
+    /* Full-width primary actions for thumbs, and 44px rows for footer links
+       (they were 18–19px tall, which is below even the WCAG 2.5.8 24px floor). */
+    .visit__actions {
+      display: grid;
+    }
+
+    .visit__actions .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .foot__col ul {
+      gap: 0;
+    }
+
+    .foot__col a,
+    .foot__fine a {
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--tap-min);
+    }
+  }

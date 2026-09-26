@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>MHM Fitness — Strength, measured.</title>
+    <meta
+      name="description"
+      content="A 3,200 sq ft strength studio in Bengaluru. Twelve platforms, six coaches, one standard. Every set logged, every twelve weeks retested."
+    />
+    <meta name="theme-color" content="#0c0c0b" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content="MHM Fitness — Strength, measured." />
+    <meta
+      property="og:description"
+      content="Twelve platforms. Six coaches. One standard. Book a free trial session."
+    />
+    <meta property="og:type" content="website" />
+    <!-- Without JS the WebGL layer cannot exist, so stage chapters get a flat ink bed. -->
+    <noscript>
+      <style>
+        .chapter--stage {
+          background-color: #0c0c0b;
+        }
+      </style>
+    </noscript>
+  </head>
+
+  <body class="page">
+    <a class="skip" href="#main">Skip to content</a>
+
+    <!-- WebGL stage: fixed behind the document, driven entirely by scroll progress. -->
+    <canvas id="stage" class="stage" aria-hidden="true"></canvas>
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- Poster shown when WebGL is unavailable. -->
+    <div class="poster" aria-hidden="true">
+      <svg viewBox="0 0 120 120" class="poster__plate" role="presentation">
+        <circle cx="60" cy="60" r="46" fill="none" stroke="#efede7" stroke-opacity=".2" stroke-width="12" />
+        <circle cx="60" cy="60" r="34" fill="none" stroke="#efede7" stroke-opacity=".45" stroke-width="1" />
+        <circle cx="60" cy="60" r="46" fill="none" stroke="#e8410e" stroke-width="1.5" />
+        <circle cx="60" cy="60" r="7" fill="none" stroke="#efede7" stroke-opacity=".55" stroke-width="1" />
+      </svg>
+    </div>
+
+    <header class="topbar" data-topbar>
+      <a class="brand" href="#top" aria-label="MHM Fitness — home">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="12" fill="none" stroke="currentColor" stroke-width="3" />
+          <circle cx="16" cy="16" r="4.5" fill="none" stroke="currentColor" stroke-width="1" />
+          <circle cx="16" cy="16" r="12" fill="none" stroke="#e8410e" stroke-width="1" />
+        </svg>
+        <span class="brand__name">MHM</span>
+        <span class="brand__meta mono">Fitness</span>
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Primary">
+        <ul class="nav__list">
+          <li><a href="#standard">Standard</a></li>
+          <li><a href="#progression">Progression</a></li>
+          <li><a href="#method">Method</a></li>
+          <li><a href="#programs">Programs</a></li>
+          <li><a href="#coaches">Coaches</a></li>
+          <li><a href="#membership">Membership</a></li>
+          <li><a href="#timings">Timings</a></li>
+        </ul>
+
+        <!-- narrow viewports hide the topbar pill, so the panel carries the CTA -->
+        <a class="btn btn--sm nav__cta" href="#visit">Book a trial</a>
+      </nav>
+
+      <a class="btn btn--sm topbar__cta" href="#visit">Book a trial</a>
+
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav" data-menu>
+        <span class="menu-btn__label">Menu</span>
+        <span class="menu-btn__bars" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </header>
+
+    <aside class="rail" aria-hidden="true">
+      <span class="rail__track"><span class="rail__fill" data-rail-fill></span></span>
+      <ol class="rail__list" data-rail-list>
+        <li data-rail="0"><span class="rail__num mono">00</span><span class="rail__label mono">The load</span></li>
+        <li data-rail="1"><span class="rail__num mono">01</span><span class="rail__label mono">Standard</span></li>
+        <li data-rail="2"><span class="rail__num mono">02</span><span class="rail__label mono">Progression</span></li>
+        <li data-rail="3"><span class="rail__num mono">03</span><span class="rail__label mono">Method</span></li>
+        <li data-rail="4"><span class="rail__num mono">04</span><span class="rail__label mono">Programs</span></li>
+        <li data-rail="5"><span class="rail__num mono">05</span><span class="rail__label mono">Coaches</span></li>
+        <li data-rail="6"><span class="rail__num mono">06</span><span class="rail__label mono">Membership</span></li>
+        <li data-rail="7"><span class="rail__num mono">07</span><span class="rail__label mono">Reviews</span></li>
+        <li data-rail="8"><span class="rail__num mono">08</span><span class="rail__label mono">Timings</span></li>
+        <li data-rail="9"><span class="rail__num mono">09</span><span class="rail__label mono">Visit</span></li>
+      </ol>
+    </aside>
+
+    <main id="main" class="main">
+      <!-- ==============================================================
+           00 — Hero. 3D act "the load": bar loads separate as you scroll.
+           ============================================================== -->
+      <section class="chapter chapter--stage chapter--hero" id="top" data-act="hero" data-section="0">
+        <div class="shell chapter__inner">
+          <p class="eyebrow" data-enter="1">Whitefield · Est. 2019 · Bengaluru</p>
+
+          <h1 class="display display--xl" data-enter="2">
+            Strength,<br /><em>measured.</em>
+          </h1>
+
+          <div class="hero__foot">
+            <p class="lede" data-enter="3">
+              Twelve platforms, six coaches, one standard. We log every set, retest every twelve
+              weeks, and rewrite the programme the day the numbers say so.
+            </p>
+            <dl class="facts" data-enter="4">
+              <div class="facts__item">
+                <dt class="mono">Sessions / day</dt>
+                <dd class="mono">12 coached</dd>
+              </div>
+              <div class="facts__item">
+                <dt class="mono">Floor hours</dt>
+                <dd class="mono">05:30 — 22:00</dd>
+              </div>
+              <div class="facts__item">
+                <dt class="mono">Retest cycle</dt>
+                <dd class="mono">Every 12 weeks</dd>
+              </div>
+            </dl>
+          </div>
+
+          <p class="chapter__tag mono" aria-hidden="true">00 / The load</p>
+        </div>
+
+        <p class="cue mono" data-enter="5" aria-hidden="true">
+          Scroll<span class="cue__line"></span>
+        </p>
+      </section>
+
+      <!-- ==============================================================
+           01 — Standard. Editorial chapter on paper.
+           ============================================================== -->
+      <section class="chapter chapter--editorial standard" id="standard" data-section="1">
+        <div class="shell">
+          <header class="chapter__head">
+            <p class="eyebrow" data-reveal>01 — Standard</p>
+            <h2 class="display display--lg measure" data-reveal>
+              Most gyms sell access. We sell a standard.
+            </h2>
+          </header>
+
+          <div class="standard__body">
+            <p class="lede measure" data-reveal>
+              Come in, put the numbers up, leave the guesswork at the door. Nothing on this floor is
+              here to entertain you — a platform, a bar, and a coach who knows your last tested lift
+              by heart.
+            </p>
+
+            <ul class="stats" data-reveal>
+              <li class="stats__item">
+                <span
+                  class="stats__value display"
+                  data-count-to="96"
+                  data-count-suffix="%"
+                  aria-label="96 percent"
+                  >96%</span
+                >
+                <span class="stats__label mono">Twelve-month retention</span>
+              </li>
+              <li class="stats__item">
+                <span
+                  class="stats__value display"
+                  data-count-to="1240"
+                  aria-label="one thousand two hundred and forty members"
+                  >1,240</span
+                >
+                <span class="stats__label mono">Active members</span>
+              </li>
+              <li class="stats__item">
+                <span class="stats__value display" data-count-to="9" data-count-suffix=" yrs"
+                  >9 yrs</span
+                >
+                <span class="stats__label mono">Under one roof</span>
+              </li>
+            </ul>
+
+            <p class="side-note mono" data-reveal>
+              No mirrors on the squat racks. Two on the bench — where they belong.
+            </p>
+          </div>
+        </div>
+      </section>
+      <!-- ==============================================================
+           02 — Progression. 3D act "progression": the ring thickens.
+           ============================================================== -->
+      <section
+        class="chapter chapter--stage progression"
+        id="progression"
+        data-act="progression"
+        data-section="2"
+      >
+        <div class="shell progression__layout">
+          <div class="progression__copy">
+            <p class="eyebrow" data-reveal>02 — Progression</p>
+            <h2 class="display display--lg" data-reveal>Load, logged.</h2>
+
+            <ol class="notes">
+              <li class="notes__item" data-reveal>
+                <span class="notes__num mono">01</span>
+                <h3 class="notes__title display display--md">Calibrated</h3>
+                <p class="notes__body">
+                  Every working weight comes off your last tested five-rep max — not your mood, not
+                  the mirror, not the rack neighbour.
+                </p>
+              </li>
+              <li class="notes__item" data-reveal>
+                <span class="notes__num mono">02</span>
+                <h3 class="notes__title display display--md">Recorded</h3>
+                <p class="notes__body">
+                  Sets, reps, RPE and tempo written down in-session. The logbook is the programme's
+                  memory, and it never forgets a bad week.
+                </p>
+              </li>
+              <li class="notes__item" data-reveal>
+                <span class="notes__num mono">03</span>
+                <h3 class="notes__title display display--md">Retested</h3>
+                <p class="notes__body">
+                  At week twelve the four lifts go back on the bar under a coach's eye, and the next
+                  block is written around what they actually did.
+                </p>
+              </li>
+            </ol>
+          </div>
+
+          <p class="stage-caption mono" data-reveal>
+            Ring = one training block. Twelve weeks, one full rotation.
+          </p>
+        </div>
+      </section>
+
+      <!-- ==============================================================
+           03 — Method. 3D act "pull": the cable takes tension.
+           ============================================================== -->
+      <section class="chapter chapter--stage method" id="method" data-act="pull" data-section="3">
+        <div class="shell method__layout">
+          <div class="method__copy">
+            <p class="eyebrow" data-reveal>03 — Method</p>
+            <h2 class="display display--lg" data-reveal>Four rules, in order.</h2>
+            <p class="notes__body method__intro" data-reveal>
+              No periodisation spreadsheet you'll never open. Four rules, applied for long enough to
+              matter.
+            </p>
+          </div>
+
+          <ol class="rules">
+            <li class="rules__item" data-reveal>
+              <span class="rules__num mono">01</span>
+              <div>
+                <h3 class="rules__title">Progressive overload</h3>
+                <p class="rules__body">
+                  Each session, load or reps move forward. If neither can, we change the lift or the
+                  tempo — never the standard.
+                </p>
+              </div>
+            </li>
+            <li class="rules__item" data-reveal>
+              <span class="rules__num mono">02</span>
+              <div>
+                <h3 class="rules__title">Barbell first</h3>
+                <p class="rules__body">
+                  Squat, bench, deadlift, press. Everything else on the floor exists to support
+                  those four.
+                </p>
+              </div>
+            </li>
+            <li class="rules__item" data-reveal>
+              <span class="rules__num mono">03</span>
+              <div>
+                <h3 class="rules__title">Tempo before volume</h3>
+                <p class="rules__body">
+                  Three seconds down until it is automatic. Control is the difference between
+                  training and collecting fatigue.
+                </p>
+              </div>
+            </li>
+            <li class="rules__item" data-reveal>
+              <span class="rules__num mono">04</span>
+              <div>
+                <h3 class="rules__title">Recover on purpose</h3>
+                <p class="rules__body">
+                  Sleep, protein, one true rest day. Non-negotiable, and written into the block
+                  alongside the lifts.
+                </p>
+              </div>
+            </li>
+          </ol>
+
+          <p class="stage-caption mono" data-reveal>
+            Cable at 3 × 12 — tension builds until the stack clears the floor.
+          </p>
+        </div>
+      </section>
+      <!-- ==============================================================
+           Scrub strip: type translates with scroll — never an infinite loop.
+           ============================================================== -->
+      <section class="ticker chapter--editorial" aria-hidden="true">
+        <div class="ticker__track" data-ticker>
+          <span>Squat</span><span>Bench</span><span>Deadlift</span><span>Press</span><span>Row</span>
+          <span>Pull-up</span><span>Carry</span><span>Hinge</span><span>Squat</span><span>Bench</span>
+          <span>Deadlift</span><span>Press</span><span>Row</span><span>Pull-up</span><span>Carry</span>
+          <span>Hinge</span>
+        </div>
+      </section>
+
+      <!-- ==============================================================
+           04 — Programs. Asymmetric editorial grid: 7/5, then a full-width row.
+           ============================================================== -->
+      <section class="chapter chapter--editorial programs" id="programs" data-section="4">
+        <div class="shell">
+          <header class="chapter__head">
+            <p class="eyebrow" data-reveal>04 — Programs</p>
+            <h2 class="display display--lg" data-reveal>Three ways in.</h2>
+          </header>
+
+          <div class="programs__grid">
+            <article class="program program--a" data-reveal>
+              <span class="program__num mono">P-01</span>
+              <h3 class="program__name display display--md">Foundations</h3>
+              <p class="program__body">
+                Six weeks, twice a week, six people to a coach. Learn the four lifts properly, leave
+                with a written programme and a logbook you understand.
+              </p>
+              <dl class="program__meta mono">
+                <div><dt>Format</dt><dd>Small group of 6</dd></div>
+                <div><dt>Duration</dt><dd>6 weeks · 12 sessions</dd></div>
+                <div><dt>Fee</dt><dd>₹6,500 / block</dd></div>
+              </dl>
+            </article>
+
+            <article class="program program--b" data-reveal>
+              <span class="program__num mono">P-02</span>
+              <h3 class="program__name display display--md">Barbell Club</h3>
+              <p class="program__body">
+                Open rack access with a coach on the floor at all times. Bring your programme, or
+                take ours and have it reviewed monthly.
+              </p>
+              <dl class="program__meta mono">
+                <div><dt>Format</dt><dd>Drop-in, unlimited</dd></div>
+                <div><dt>Hours</dt><dd>All floor hours</dd></div>
+                <div><dt>Fee</dt><dd>₹3,200 / month</dd></div>
+              </dl>
+            </article>
+
+            <article class="program program--c" data-reveal>
+              <span class="program__num mono">P-03</span>
+              <h3 class="program__name display display--md">MHM Method</h3>
+              <p class="program__body">
+                Twelve weeks, one coach, one athlete. Weekly load review, technique video, retest at
+                week twelve, and the next block written from the results.
+              </p>
+              <ul class="program__includes mono">
+                <li>Weekly 1:1 session</li>
+                <li>Load calibration</li>
+                <li>Technique film review</li>
+                <li>Twelve-week retest</li>
+              </ul>
+              <dl class="program__meta mono">
+                <div><dt>Format</dt><dd>One to one</dd></div>
+                <div><dt>Duration</dt><dd>12 weeks</dd></div>
+                <div><dt>Fee</dt><dd>₹24,000 / block</dd></div>
+              </dl>
+            </article>
+          </div>
+
+          <p class="programs__note mono" data-reveal>
+            Every way in includes the logbook, the twelve-week retest and the quarterly review.
+          </p>
+        </div>
+      </section>
+      <!-- ==============================================================
+           05 — Coaches. Editorial rows, not cards: the list is the design.
+           ============================================================== -->
+      <section class="chapter chapter--editorial coaches" id="coaches" data-section="5">
+        <div class="shell">
+          <header class="chapter__head chapter__head--split">
+            <p class="eyebrow" data-reveal>05 — Coaches</p>
+            <h2 class="display display--lg" data-reveal>Six coaches,<br /><em>one floor.</em></h2>
+          </header>
+
+          <ul class="coach-list">
+            <li class="coach" data-reveal>
+              <span class="coach__num mono">C—01</span>
+              <h3 class="coach__name display display--md">Aarti Rao</h3>
+              <p class="coach__role mono">Head coach · Barbell / return to lifting</p>
+              <p class="coach__bio">
+                Eleven years under the bar, four of them coaching lifters back from injury. Writes
+                every retest protocol on this floor.
+              </p>
+            </li>
+            <li class="coach" data-reveal>
+              <span class="coach__num mono">C—02</span>
+              <h3 class="coach__name display display--md">Vikram Sen</h3>
+              <p class="coach__role mono">Strength &amp; conditioning · ex-national swimmer</p>
+              <p class="coach__bio">
+                Nine years coaching. Runs the conditioning block, and will tell you the truth about
+                your rest periods.
+              </p>
+            </li>
+            <li class="coach" data-reveal>
+              <span class="coach__num mono">C—03</span>
+              <h3 class="coach__name display display--md">Meera Iyer</h3>
+              <p class="coach__role mono">Foundations · pre- and post-natal</p>
+              <p class="coach__bio">
+                Seven years coaching beginners. Has taught more people their first deadlift than
+                anyone else here.
+              </p>
+            </li>
+          </ul>
+
+          <p class="coach-list__more mono" data-reveal>+ three more on the floor — ask at the desk.</p>
+        </div>
+      </section>
+
+      <!-- ==============================================================
+           06 — Membership. Ink chapter: the palette flips, the stage pauses.
+           ============================================================== -->
+      <section class="chapter chapter--ink membership" id="membership" data-section="6">
+        <div class="shell">
+          <header class="chapter__head">
+            <p class="eyebrow" data-reveal>06 — Membership</p>
+            <h2 class="display display--lg" data-reveal>Open every day, priced by the month.</h2>
+          </header>
+
+          <ul class="tiers">
+            <li class="tier" data-reveal>
+              <p class="tier__name mono">Off-peak</p>
+              <p class="tier__price display display--md">
+                ₹2,400<span class="tier__unit mono">/ month</span>
+              </p>
+              <p class="tier__body">Before 16:00 on weekdays, all day Saturday.</p>
+            </li>
+            <li class="tier tier--feature" data-reveal>
+              <p class="tier__name mono">Full floor</p>
+              <p class="tier__price display display--md">
+                ₹3,900<span class="tier__unit mono">/ month</span>
+              </p>
+              <p class="tier__body">
+                Every floor hour, all classes, logbook and the twelve-week retest included.
+              </p>
+              <p class="tier__flag mono">Most members</p>
+            </li>
+            <li class="tier" data-reveal>
+              <p class="tier__name mono">Coached</p>
+              <p class="tier__price display display--md">
+                ₹9,600<span class="tier__unit mono">/ month</span>
+              </p>
+              <p class="tier__body">
+                Full floor, plus two coached sessions a week and a written training block.
+              </p>
+            </li>
+          </ul>
+
+          <p class="membership__note mono" data-reveal>
+            No joining fee. No lock-in. Thirty days' notice, always. Student and athlete concession on
+            request.
+          </p>
+        </div>
+      </section>
+      <!-- ==============================================================
+           Members. Quote-led, no carousel — one statement, kept.
+           ============================================================== -->
+      <section class="chapter chapter--editorial quote" aria-label="What members say">
+        <div class="shell quote__inner">
+          <p class="eyebrow" data-reveal>Members</p>
+
+          <figure class="quote__figure">
+            <blockquote class="quote__block display display--lg" data-reveal>
+              <p>
+                “I came in to lose weight. I left with a 120 kg deadlift and a spreadsheet I
+                actually enjoy.”
+              </p>
+            </blockquote>
+            <figcaption class="quote__by mono" data-reveal>
+              Nikhil M. — member since 2022
+            </figcaption>
+          </figure>
+
+          <p class="quote__aside" data-reveal>
+            <span class="quote__aside-lead mono">Second opinion —</span>
+            “Nobody at this place asks what you lift. They ask what you're lifting next.”
+            <span class="quote__aside-by mono">Sneha R., member since 2021</span>
+          </p>
+        </div>
+      </section>
+
+      <!-- ==============================================================
+           07 — Reviews. Google reviews, kept as a wall of quotes.
+           ============================================================== -->
+      <section class="chapter chapter--ink reviews" id="reviews" data-section="7">
+        <div class="shell">
+          <header class="chapter__head">
+            <p class="eyebrow" data-reveal>07 — Reviews</p>
+            <h2 class="display display--lg measure" data-reveal>In their words.</h2>
+            <p class="lede measure" data-reveal>
+              Quoted from our Google listing, trimmed for length. First months and third years,
+              beginners and regulars — the floor, described by the people standing on it.
+            </p>
+          </header>
+
+          <ul class="reviews__grid">
+            <li class="review" data-reveal>
+              <blockquote class="review__quote">
+                <p>
+                  “Fantastic gym! The equipment is top-notch and the atmosphere is encouraging.
+                  Mani Sir is an outstanding trainer — his workouts are effective, and I've seen
+                  real results in my fitness and weight loss. Absolutely a 5-star gym and trainer.”
+                </p>
+              </blockquote>
+              <p class="review__by mono">
+                <span class="review__name">Malaiarasan S</span>
+                <span class="review__meta">5 reviews · 1 photo</span>
+              </p>
+            </li>
+
+            <li class="review" data-reveal>
+              <blockquote class="review__quote">
+                <p>
+                  “Premium ambiance and friendly trainers — it's always easy to achieve goals when
+                  a place feels like home, and MHM Fitness is home… must try.”
+                </p>
+              </blockquote>
+              <p class="review__by mono">
+                <span class="review__name">Arun</span>
+                <span class="review__meta">2 reviews · 1 photo</span>
+              </p>
+            </li>
+
+            <li class="review" data-reveal>
+              <blockquote class="review__quote">
+                <p>
+                  “The equipment is well maintained and clean. Trainers are supportive and guide
+                  properly during workouts. The environment is motivating and comfortable for
+                  beginners as well.”
+                </p>
+              </blockquote>
+              <p class="review__by mono">
+                <span class="review__name">Kaveri hosapete</span>
+                <span class="review__meta">1 review</span>
+              </p>
+            </li>
+
+            <li class="review" data-reveal>
+              <blockquote class="review__quote">
+                <p>
+                  “Great gym for beginners. The trainers are supportive, the equipment is well
+                  maintained, and the overall atmosphere is friendly and motivating. Highly
+                  recommended for anyone starting their fitness journey.”
+                </p>
+              </blockquote>
+              <p class="review__by mono">
+                <span class="review__name">Jeevan Reddy</span>
+                <span class="review__meta">2 reviews</span>
+              </p>
+            </li>
+
+            <li class="review" data-reveal>
+              <blockquote class="review__quote">
+                <p>
+                  “MHM has been awesome to me. Their trainers are exceptional, the overall vibe is
+                  great and I have had nothing but good experiences. I definitely recommend it.
+                  The ambiance is good in the morning — the day will be set well.”
+                </p>
+              </blockquote>
+              <p class="review__by mono">
+                <span class="review__name">Sri Kanth</span>
+                <span class="review__meta">Local Guide · 15 reviews · 111 photos</span>
+              </p>
+            </li>
+
+            <li class="review" data-reveal>
+              <blockquote class="review__quote">
+                <p>
+                  “The facilities at MHM are top-notch. The gym is spacious, well-organized, and
+                  equipped with a wide variety of machines and free weights to cater to all
+                  fitness levels.”
+                </p>
+              </blockquote>
+              <p class="review__by mono">
+                <span class="review__name">Rima Dhara</span>
+                <span class="review__meta">Local Guide · 14 reviews · 23 photos</span>
+              </p>
+            </li>
+          </ul>
+
+          <p class="reviews__source mono" data-reveal>
+            Find the rest on our Google listing — MHM Fitness, Whitefield.
+          </p>
+        </div>
+      </section>
+
+      <!-- ==============================================================
+           08 — Timings. The week, as the door keeps it.
+           ============================================================== -->
+      <section class="chapter chapter--editorial timings" id="timings" data-section="8">
+        <div class="shell">
+          <header class="chapter__head">
+            <p class="eyebrow" data-reveal>08 — Timings</p>
+            <h2 class="display display--lg measure" data-reveal>
+              Five-thirty to ten, six days a week.
+            </h2>
+          </header>
+
+          <div class="timings__body">
+            <p class="lede measure" data-reveal>
+              The floor opens at 05:30 Monday through Saturday and closes at 22:00. Sunday runs a
+              shorter day — 08:30 to 19:00. The same hours every week, so pick the ones that
+              become yours.
+            </p>
+
+            <dl class="timetable" data-reveal>
+              <div class="timetable__row">
+                <dt>Monday</dt>
+                <dd>05:30 — 22:00</dd>
+              </div>
+              <div class="timetable__row">
+                <dt>Tuesday</dt>
+                <dd>05:30 — 22:00</dd>
+              </div>
+              <div class="timetable__row">
+                <dt>Wednesday</dt>
+                <dd>05:30 — 22:00</dd>
+              </div>
+              <div class="timetable__row">
+                <dt>Thursday</dt>
+                <dd>05:30 — 22:00</dd>
+              </div>
+              <div class="timetable__row">
+                <dt>Friday</dt>
+                <dd>05:30 — 22:00</dd>
+              </div>
+              <div class="timetable__row">
+                <dt>Saturday</dt>
+                <dd>05:30 — 22:00</dd>
+              </div>
+              <div class="timetable__row">
+                <dt>Sunday</dt>
+                <dd>08:30 — 19:00</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================================
+           09 — Visit. 3D act "visit": the plate turns to face you.
+           ============================================================== -->
+      <section class="chapter chapter--stage visit" id="visit" data-act="visit" data-section="9">
+        <div class="shell visit__layout">
+          <div class="visit__cell">
+            <div class="visit__copy">
+              <p class="eyebrow" data-reveal>09 — Visit</p>
+              <h2 class="display display--lg" data-reveal>Come lift.<br /><em>First session's free.</em></h2>
+              <p class="notes__body" data-reveal>
+                Bring shoes that don't slip and a willingness to be coached. We'll test the four lifts,
+                write the first block, and tell you honestly how far it can go.
+              </p>
+              <div class="visit__actions" data-reveal>
+                <a class="btn btn--lg" href="mailto:mhmfitness2023@gmail.com" data-magnetic>
+                  Book a trial session
+                </a>
+                <a class="btn btn--lg btn--ghost" href="tel:+919902705264">Call the desk</a>
+              </div>
+            </div>
+          </div>
+
+          <dl class="visit__details">
+            <div class="visit__detail">
+              <dt class="mono">Studio</dt>
+              <dd>Varthur Main Rd, opp. Jagriti Renaissance apartment<br />Ramagondanahalli, Whitefield 560066</dd>
+            </div>
+            <div class="visit__detail">
+              <dt class="mono">Hours</dt>
+              <dd>Mon–Sat 05:30–22:00<br />Sun 08:30–19:00</dd>
+            </div>
+            <div class="visit__detail">
+              <dt class="mono">Desk</dt>
+              <dd>mhmfitness2023@gmail.com<br />+91 99027 05264</dd>
+            </div>
+          </dl>
+
+          <p class="stage-caption mono" data-reveal>
+            Plate 20 kg — the studio's first purchase, 2019.
+          </p>
+        </div>
+      </section>
+    </main>
+    <footer class="foot">
+      <div class="shell foot__inner">
+        <div class="foot__brand">
+          <p class="display display--md">MHM <em>Fitness</em></p>
+          <p class="foot__line mono">Est. 2019 · Whitefield, Bengaluru</p>
+        </div>
+
+        <nav class="foot__nav" aria-label="Footer">
+          <div class="foot__col">
+            <p class="foot__head mono">Studio</p>
+            <ul>
+              <li><a href="#standard">Standard</a></li>
+              <li><a href="#progression">Progression</a></li>
+              <li><a href="#method">Method</a></li>
+              <li><a href="#reviews">Reviews</a></li>
+              <li><a href="#timings">Timings</a></li>
+            </ul>
+          </div>
+          <div class="foot__col">
+            <p class="foot__head mono">Join</p>
+            <ul>
+              <li><a href="#programs">Programs</a></li>
+              <li><a href="#membership">Membership</a></li>
+              <li><a href="#visit">Trial session</a></li>
+            </ul>
+          </div>
+          <div class="foot__col">
+            <p class="foot__head mono">Elsewhere</p>
+            <ul>
+              <li><a href="#visit">Instagram</a></li>
+              <li><a href="#visit">Strava club</a></li>
+              <li><a href="#visit">Newsletter</a></li>
+            </ul>
+          </div>
+        </nav>
+
+        <p class="foot__fine mono">
+          © 2026 MHM Fitness · WebGL stage built with Three.js ·
+          <a href="#top">Back to top</a>
+        </p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

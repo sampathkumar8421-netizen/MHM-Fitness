@@ -1,0 +1,74 @@
+name: Mobile QA
+
+# Opt-in on purpose. The measurement harness drives a real Chrome at a Windows path
+# (`tools/harness/README.md` → "Prerequisites") and needs the built site served on
+# 127.0.0.1:4173, so it cannot run in the Linux CI job without rewriting it. Run this
+# manually before a release, or when a change touches CSS, layout, scroll or 3D quality.
+#
+# Artifacts (screenshots + raw harness reports) are uploaded even when the gate fails,
+# so a failure is diagnosable from the run page alone.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mobile:
+    name: phone audit (390 / 320 / rotation)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install (clean)
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify build contracts
+        run: npm run verify:build
+
+      - name: Serve dist/ on 4173
+        shell: pwsh
+        run: |
+          Start-Process -FilePath 'npm.cmd' -ArgumentList 'run','preview' `
+            -RedirectStandardOutput preview.out.log -RedirectStandardError preview.err.log
+          $deadline = (Get-Date).AddSeconds(90)
+          while ((Get-Date) -lt $deadline) {
+            try {
+              $response = Invoke-WebRequest -Uri 'http://127.0.0.1:4173/' -TimeoutSec 5
+              if ($response.StatusCode -eq 200) { Write-Output 'preview is up'; exit 0 }
+            } catch { Start-Sleep -Seconds 3 }
+          }
+          Write-Error 'preview server did not come up within 90s'
+          if (Test-Path preview.err.log) { Get-Content preview.err.log }
+          exit 1
+
+      - name: Mobile gate
+        shell: pwsh
+        run: npm run verify:mobile
+
+      - name: Upload harness evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-qa-evidence
+          path: |
+            tools/harness/screens/
+            tools/harness/reports/
+            preview.out.log
+            preview.err.log
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Stop preview
+        if: always()
+        shell: pwsh
+        run: Get-Process node -ErrorAction SilentlyContinue | Where-Object { $_.Path -and $_.CommandLine -like '*vite*' } | Stop-Process -Force -ErrorAction SilentlyContinue

@@ -1,0 +1,60 @@
+name: Feature request
+description: Suggest a change to the site's behaviour, layout or engineering setup.
+title: "feat: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is a one-page marketing site with a deliberate design brief. "Add a carousel"
+        is unlikely to fit; "the coaches section is unusable at 320px" is very welcome.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve
+      description: Describe the situation, not the solution. Who hits it, and when?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like to happen
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Including doing nothing, or a CSS-only version of the idea.
+    validations:
+      required: false
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      multiple: true
+      options:
+        - Layout / CSS
+        - Mobile menu or navigation
+        - Scroll behaviour or the rail
+        - 3D stage / WebGL
+        - Type, colour or contrast
+        - Performance or battery
+        - Accessibility
+        - Measurement harness (tools/harness)
+        - Build, CI or tooling
+        - Docs
+    validations:
+      required: true
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Constraints this would touch
+      description: Tick anything this change would affect, so the cost is visible up front.
+      options:
+        - label: Would change the shipped bundle size
+        - label: Would need a new runtime dependency
+        - label: Would change how scroll carries the 3D stage
+        - label: Would need new measurement coverage in tools/harness
+        - label: Might break reduced-motion or no-WebGL fallbacks
